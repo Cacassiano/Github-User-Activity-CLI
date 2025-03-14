@@ -1,6 +1,7 @@
+
 package dev.cacassiano;
 
-import com.faGitHubEventxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
@@ -140,3 +141,4 @@ class Reactions {
     public int rocket;
     public int eyes;
 }
+
