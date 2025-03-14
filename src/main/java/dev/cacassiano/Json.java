@@ -13,6 +13,17 @@ public class Json
 {
     public GitHubEvent[] criarObjetoEventos(String uri) throws IOException,URISyntaxException, InterruptedException
     {
+        String resposta = requisicao(uri);
+        // criando o mapper
+        ObjectMapper map = new ObjectMapper();
+        // cria uma lista de objetos a partir de uma string [{...}]
+        GitHubEvent[] json = map.readValue(resposta, GitHubEvent[].class);
+
+        return json;
+    }
+
+    public String requisicao(String uri)throws IOException,URISyntaxException, InterruptedException
+    {
         HttpClient client = HttpClient.newHttpClient();
         
         HttpRequest req = HttpRequest.newBuilder()
@@ -22,14 +33,10 @@ public class Json
 
         // REquisicao feita
         HttpResponse resp = client.send(req, HttpResponse.BodyHandlers.ofString());
-
-        // criando o mapper
-        ObjectMapper map = new ObjectMapper();
-        String strJson = resp.body().toString();
-        
-        // cria uma lista de objetos a partir de uma string [{...}]
-        GitHubEvent[] json = map.readValue(strJson, GitHubEvent[].class);
-
-        return json;
+        if (resp.statusCode() == 404)
+        {
+            return "404";
+        }
+        return resp.body().toString();
     }
 }
